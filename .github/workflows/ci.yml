@@ -1,0 +1,22 @@
+name: Bash Scripts CI
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test-scripts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Check Bash syntax
+        run: |
+          bash -n check_api.sh
+          bash -n analyze_logs.sh
+
+      - name: Test API script
+        run: |
+          chmod +x check_api.sh
+          ./check_api.sh https://httpbin.org/status/200
